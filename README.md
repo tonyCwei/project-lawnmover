@@ -1,4 +1,4 @@
 Group Members:
 
-Chenhao Wei
+Chenhao Wei,
 Mike Thai
