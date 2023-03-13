@@ -112,7 +112,17 @@ public:
   // Return true when this disk_state is fully sorted, with all light disks on
   // the left (low indices) and all dark disks on the right (high indices).
   bool is_sorted() const {
-
+      size_t n = total_count();     
+      for (size_t i = 0; i < n / 2; i++) {
+        if (get(i) == DISK_DARK) {
+          return false;
+        }
+      }
+      for (size_t i = n / 2; i < n ; i++) {
+        if (get(i) == DISK_LIGHT) {
+          return false;
+        }
+      }
       return true;
   }
 };
@@ -175,6 +185,24 @@ sorted_disks sort_alternate(const disk_state& before) {
 sorted_disks sort_lawnmower(const disk_state& before) {
   int numOfSwap = 0;                                                                      //record # of step swap
   disk_state state = before;
+  size_t size = state.total_count();
+
+  for (size_t n = 0; n < size / 2; n++) {
+    
+    for (size_t left = 0; left < size - 1; left++) {
+      if (state.get(left) == DISK_DARK && state.get(left+1) == DISK_LIGHT) {
+        state.swap(left);
+        numOfSwap++;
+      }
+    }
+
+    for (size_t right = size - 1; right > 0; right--) {
+      if (state.get(right) == DISK_LIGHT && state.get(right-1) == DISK_DARK) {
+        state.swap(right-1);
+        numOfSwap++;
+      }
+    }
+  }
 
 
   return sorted_disks(disk_state(state), numOfSwap);
