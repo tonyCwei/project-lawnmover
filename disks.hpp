@@ -112,7 +112,7 @@ public:
   // Return true when this disk_state is fully sorted, with all light disks on
   // the left (low indices) and all dark disks on the right (high indices).
   bool is_sorted() const {
-      
+
       return true;
   }
 };
@@ -145,8 +145,23 @@ public:
 // Algorithm that sorts disks using the alternate algorithm.
 sorted_disks sort_alternate(const disk_state& before) {
 	int numOfSwap = 0;                                                                      //record # of step swap
- 
-          }
+  disk_state state = before;
+  size_t size = state.total_count();
+
+  for (size_t i = 0; i < size/2; i++) {
+
+    if (i % 2 == 0) {
+      for (size_t j = 0;j < size; j += 2) {
+        if (state.get(j) == DISK_DARK && state.get(j+1) == DISK_LIGHT) {state.swap(j); numOfSwap++;}
+      }
+    }
+    else {
+      for (size_t j = 1; j < size-1; j += 2) {
+        if (state.get(j) == DISK_DARK && state.get(j+1) == DISK_LIGHT) {state.swap(j); numOfSwap++;}
+      }
+    }
+
+  }
 
   return sorted_disks(disk_state(state), numOfSwap);
 }
@@ -154,8 +169,9 @@ sorted_disks sort_alternate(const disk_state& before) {
 
 // Algorithm that sorts disks using the lawnmower algorithm.
 sorted_disks sort_lawnmower(const disk_state& before) {
-  	
-	  }
+  int numOfSwap = 0;                                                                      //record # of step swap
+  disk_state state = before;
+
 
   return sorted_disks(disk_state(state), numOfSwap);
 }
